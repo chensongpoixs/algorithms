@@ -14,8 +14,8 @@
 					8. LST基数排序
 *********************************************************************/
 
-#ifndef _ALGORITHM_H_ 
-#define _ALGORITHM_H_
+#ifndef _C_SORT_H_ 
+#define _C_SORT_H_
 #include <iostream>
 template<class T>
 void swap_value(T &a, T &b)
@@ -308,4 +308,4 @@ void print_array(T a[], int n)
 	}
 	std::cout << std::endl;
 }
-#endif  // _ALGORITHM_H_
+#endif  // _C_SORT_H_

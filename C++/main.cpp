@@ -1,6 +1,7 @@
-#include "algorithm.h"
+#include "csort.h"
+#include "csearch.h"
 
-int main(int argc, char *argv[])
+void _sort()
 {
 	for (int i = 1; i <= 8; ++i)
 	{
@@ -35,8 +36,26 @@ int main(int argc, char *argv[])
 			break;
 		}
 		print_array(arr, sizeof(arr) / sizeof(arr[0]));
-	}
-	
+	}	
+}
+
+void _search()
+{
+	double a[] = {1.2, 2.3, 3.4, 4.5, 5.6, 6.7, 7.8, 8.9};
+	int n = sizeof(a) / sizeof(a[0]);
+	std::cout << "The number of array a is : " << n << std::endl;
+
+	int index = bianrysearch(a, n, 4.5);
+
+	std::cout << "bianrySearch The index of 4.5 in array a is : " << index + 1 << std::endl;
+	index = rebinarysearch(a, n, 7.8);
+
+	std::cout << "rebinarysearch The index of 4.5 in array a is : " << index + 1 << std::endl;
+}
+int main(int argc, char *argv[])
+{
+	_sort();
+	_search();
 #if defined(_MSC_VER)
 				system("pause");
 #elif defined(__GNUC__)
