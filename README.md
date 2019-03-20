@@ -25,3 +25,69 @@
 6. 分块查找
 7. 哈希查找
 
+
+
+###  三, 大O表示法
+
+
+```
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+//算法是最终要编译成具体的计算机指令
+//每一个指令 在具体的计算机 cpu 上运行的时间是固定的
+//通过具体的n的步骤的多少就可以推算法的复杂度
+long sum1(int n)  // 2n + 4  ===>   n->无穷大时 可以忽略 + 4了 就是  O(n)
+{
+	long ret = 0; //1
+	int* array = static_cast<int*>(malloc(sizeof(int)* n)); //1
+
+	int i;// 1
+	for (i = 0; i < n; ++i) //n
+	{
+		array[i] = i + 1;
+	}
+
+	for (i = 0; i < n; ++i) //n
+	{
+		ret += array[i];
+	}
+
+	free(array); //1
+
+	return ret;
+}
+
+long sum2(int n) //n + 2    ===>   n->无穷大 是  O(n)
+{
+	long ret = 0; // 1
+	int i = 0;  // 1
+	for (i = 1; i <= n; ++i) // n
+	{
+		ret += i;
+	}
+
+	return ret;
+}
+
+long sum3(int n)  // 2  ==== 》 O(1)
+{
+	long ret = 0; // 1
+	if (n > 0)
+	{
+		ret = (1 + n) * n / 2;  // 1  // 2
+	}
+	return ret;
+}
+
+int main(int argc, char *argv[])
+{
+	
+	
+	system("pause");
+	return EXIT_SUCCESS;
+}
+```
+
