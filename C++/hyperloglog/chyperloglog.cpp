@@ -17,10 +17,11 @@ static const int HLL_BITS = 6;
 static const int HLL_REGISTERS = 16384;
 static const int HLL_DENSE_SIZE = (HLL_REGISTERS*HLL_BITS + 7) / 8;
 static const int HLL_TEST_CYCLES = 1000;
+static const int HLL_P_MASK = 16383; //  ‭0011 1111 1111 1111‬
+static const int HLL_REGISTER_MAX =  63; // 0011 1111
 
 uint8_t  *_registers;//data bytes
 
-#define HLL_P_MASK (HLL_REGISTERS-1) 
 
 					 /* Our hash function is MurmurHash2, 64 bit version.
 					 * It was modified for Redis in order to provide the same result in
@@ -109,7 +110,7 @@ int hllPatLen(unsigned char *ele, size_t elesize, long *regp) {
 	*regp = (int)index;
 	return count;
 }
-#define HLL_REGISTER_MAX ((1<<HLL_BITS)-1)
+
 
 void HLL_DENSE_GET_REGISTER(uint8_t *target, uint8_t ** p, long  regnum)
 {
