@@ -1,9 +1,9 @@
 ﻿/***********************************************************************************************
-created: 		2019-12-03
+				created: 		2019-12-03
 
-author:			chensong
+				author:			chensong
 
-purpose:		hyperloglog
+				purpose:		chyperloglog
 ************************************************************************************************/
 
 
@@ -16,14 +16,15 @@ static const int HLL_Q = 50; /* The number of bits of the hash value used for*/
 static const int HLL_BITS = 6;
 static const int HLL_REGISTERS = 16384;
 static const int HLL_DENSE_SIZE = (HLL_REGISTERS*HLL_BITS + 7) / 8;
+static const int HLL_TEST_CYCLES = 1000;
 
 uint8_t  *_registers;//data bytes
 
 #define HLL_P_MASK (HLL_REGISTERS-1) 
 
- /* Our hash function is MurmurHash2, 64 bit version.
- * It was modified for Redis in order to provide the same result in
- * big and little endian archs (endian neutral). */
+					 /* Our hash function is MurmurHash2, 64 bit version.
+					 * It was modified for Redis in order to provide the same result in
+					 * big and little endian archs (endian neutral). */
 uint64_t MurmurHash64A(const void * key, int len, unsigned int seed) {
 	const uint64_t m = 0xc6a4a7935bd1e995;
 	const int r = 47;
@@ -110,29 +111,29 @@ int hllPatLen(unsigned char *ele, size_t elesize, long *regp) {
 }
 #define HLL_REGISTER_MAX ((1<<HLL_BITS)-1)
 
-void HLL_DENSE_GET_REGISTER(uint8_t *target, uint8_t ** p,long  regnum)
+void HLL_DENSE_GET_REGISTER(uint8_t *target, uint8_t ** p, long  regnum)
 {
-    uint8_t *_p = (uint8_t*)* p; 
-    unsigned long _byte = regnum*HLL_BITS/8; 
-	unsigned long _fb = regnum*HLL_BITS & 7; 
-	unsigned long _fb8 = 8 - _fb; 
-	unsigned long b0 = _p[_byte]; 
-	unsigned long b1 = _p[_byte + 1]; 
-	*target = ((b0 >> _fb) | (b1 << _fb8)) & HLL_REGISTER_MAX; 
-} 
+	uint8_t *_p = (uint8_t*)* p;
+	unsigned long _byte = regnum*HLL_BITS / 8;
+	unsigned long _fb = regnum*HLL_BITS & 7;
+	unsigned long _fb8 = 8 - _fb;
+	unsigned long b0 = _p[_byte];
+	unsigned long b1 = _p[_byte + 1];
+	*target = ((b0 >> _fb) | (b1 << _fb8)) & HLL_REGISTER_MAX;
+}
 
-void HLL_DENSE_SET_REGISTER(uint8_t **p, long regnum, uint8_t val) 
+void HLL_DENSE_SET_REGISTER(uint8_t **p, long regnum, uint8_t val)
 {
-    uint8_t *_p = (uint8_t*) *p; 
-    unsigned long _byte = regnum*HLL_BITS/8;
-    unsigned long _fb = regnum*HLL_BITS&7;  
+	uint8_t *_p = (uint8_t*)*p;
+	unsigned long _byte = regnum*HLL_BITS / 8;
+	unsigned long _fb = regnum*HLL_BITS & 7;
 	unsigned long _fb8 = 8 - _fb;
 	unsigned long _v = val;
 	_p[_byte] &= ~(HLL_REGISTER_MAX << _fb);
 	_p[_byte] |= _v << _fb;
 	_p[_byte + 1] &= ~(HLL_REGISTER_MAX >> _fb8);
 	_p[_byte + 1] |= _v >> _fb8;
-} 
+}
 
 /* Low level function to set the dense HLL register at 'index' to the
 * specified value if the current value is smaller than 'count'.
@@ -186,51 +187,51 @@ static void byte2hex(char* dst_buf, const unsigned char *src_buf, int buf_len)
 
 void hllDenseRegHisto(uint8_t *registers, int* reghisto) {
 	int j;
-	
 
-		uint8_t *r = registers;
-		unsigned long r0, r1, r2, r3, r4, r5, r6, r7, r8, r9,
-			r10, r11, r12, r13, r14, r15;
-		// 一共内存的大小是 86016  ---> 下面统计时使用的内存大小是 12288--->还有没有使用的内存？？怎么处理呢
-		for (j = 0; j < 1024; j++) {
-			/* Handle 16 registers per iteration. */
-			r0 = r[0] & 63; // 63 => 0011 1111
-			r1 = (r[0] >> 6 | r[1] << 2) & 63;
-			r2 = (r[1] >> 4 | r[2] << 4) & 63;
-			r3 = (r[2] >> 2) & 63;
-			r4 = r[3] & 63;
-			r5 = (r[3] >> 6 | r[4] << 2) & 63;
-			r6 = (r[4] >> 4 | r[5] << 4) & 63;
-			r7 = (r[5] >> 2) & 63;
-			r8 = r[6] & 63;
-			r9 = (r[6] >> 6 | r[7] << 2) & 63;
-			r10 = (r[7] >> 4 | r[8] << 4) & 63;
-			r11 = (r[8] >> 2) & 63;
-			r12 = r[9] & 63;
-			r13 = (r[9] >> 6 | r[10] << 2) & 63;
-			r14 = (r[10] >> 4 | r[11] << 4) & 63;
-			r15 = (r[11] >> 2) & 63;
 
-			reghisto[r0]++;
-			reghisto[r1]++;
-			reghisto[r2]++;
-			reghisto[r3]++;
-			reghisto[r4]++;
-			reghisto[r5]++;
-			reghisto[r6]++;
-			reghisto[r7]++;
-			reghisto[r8]++;
-			reghisto[r9]++;
-			reghisto[r10]++;
-			reghisto[r11]++;
-			reghisto[r12]++;
-			reghisto[r13]++;
-			reghisto[r14]++;
-			reghisto[r15]++;
-			// 指针数组增加移动
-			r += 12;
-		}
-	
+	uint8_t *r = registers;
+	unsigned long r0, r1, r2, r3, r4, r5, r6, r7, r8, r9,
+		r10, r11, r12, r13, r14, r15;
+	// 一共内存的大小是 86016  ---> 下面统计时使用的内存大小是 12288--->还有没有使用的内存？？怎么处理呢
+	for (j = 0; j < 1024; j++) {
+		/* Handle 16 registers per iteration. */
+		r0 = r[0] & 63; // 63 => 0011 1111
+		r1 = (r[0] >> 6 | r[1] << 2) & 63;
+		r2 = (r[1] >> 4 | r[2] << 4) & 63;
+		r3 = (r[2] >> 2) & 63;
+		r4 = r[3] & 63;
+		r5 = (r[3] >> 6 | r[4] << 2) & 63;
+		r6 = (r[4] >> 4 | r[5] << 4) & 63;
+		r7 = (r[5] >> 2) & 63;
+		r8 = r[6] & 63;
+		r9 = (r[6] >> 6 | r[7] << 2) & 63;
+		r10 = (r[7] >> 4 | r[8] << 4) & 63;
+		r11 = (r[8] >> 2) & 63;
+		r12 = r[9] & 63;
+		r13 = (r[9] >> 6 | r[10] << 2) & 63;
+		r14 = (r[10] >> 4 | r[11] << 4) & 63;
+		r15 = (r[11] >> 2) & 63;
+
+		reghisto[r0]++;
+		reghisto[r1]++;
+		reghisto[r2]++;
+		reghisto[r3]++;
+		reghisto[r4]++;
+		reghisto[r5]++;
+		reghisto[r6]++;
+		reghisto[r7]++;
+		reghisto[r8]++;
+		reghisto[r9]++;
+		reghisto[r10]++;
+		reghisto[r11]++;
+		reghisto[r12]++;
+		reghisto[r13]++;
+		reghisto[r14]++;
+		reghisto[r15]++;
+		// 指针数组增加移动
+		r += 12;
+	}
+
 }
 double hllTau(double x) {
 	if (x == 0. || x == 1.) return 0.;
@@ -288,9 +289,14 @@ uint64_t hllCount(uint8_t *registers, int *invalid) {
 	return (uint64_t)E;
 }
 
-int main(int argc, char* argv[])
-{
 
+
+/**
+*
+*理论布隆过滤器的错误的可能性 = 1.04/sqrt(16384)
+*/
+bool hyperloglog_test()
+{
 	_registers = (uint8_t *)::malloc(HLL_DENSE_SIZE);
 	if (!_registers)
 	{
@@ -298,30 +304,109 @@ int main(int argc, char* argv[])
 		return  -1;
 	}
 	memset(_registers, 0, HLL_DENSE_SIZE);
-	
-	for (int i = 0; i < 100000; ++i)
+	//注册桶的信息
+	uint8_t bytecounters[HLL_REGISTERS];
+
+	// 1 测试存储桶的信息是否正确
+	for (int j = 0; j < HLL_TEST_CYCLES; ++j)
 	{
-		int temp = i;
-		hllDenseAdd(_registers, (unsigned char *)&temp, sizeof(int));
-	}
-	
-	
-	long count = hllCount(_registers, NULL);
-	printf("[count = %ld]\n[hex=\n", count);
-	for (int i = 0; i < HLL_DENSE_SIZE; ++i)
-	{
-		printf("%c",  s_hex_digits[_registers[i] / 16]);
-		if (i % 20 == 0 )
+		for (int i = 0; i < HLL_REGISTERS; ++i)
 		{
-			printf("\n");
+			unsigned int r = rand() & HLL_REGISTER_MAX;
+
+			bytecounters[i] = r;
+			HLL_DENSE_SET_REGISTER(&_registers, i, r);
+		}
+
+		for (int i = 0; i < HLL_REGISTERS; ++i)
+		{
+			uint8_t val;
+
+			HLL_DENSE_GET_REGISTER(&val, &_registers, i);
+			if (val != bytecounters[i])
+			{
+				printf("[%s][%d]TESTFAILED Register %d should be %d but is %d\n", __FUNCTION__, __LINE__, i, (int)bytecounters[i], (int)val);
+				return false;
+			}
 		}
 	}
-	printf("]\n");
+
+
+	memset(_registers, 0, HLL_DENSE_SIZE);
+	//2.  错误可能性 
+	double relerr = 1.04 / sqrt(HLL_REGISTERS);
+	int64_t checkpoint = 1;
+	uint64_t seed = (uint64_t)rand() | (uint64_t)rand() << 32;
+	uint64_t ele;
+	
+	for (int j = 1; j <= 10000000; ++j)
+	{
+		ele = j ^ seed;
+		hllDenseAdd(_registers, (unsigned char *)&ele, sizeof(ele));
+
+		/* Check error. */
+		if (j == checkpoint)
+		{
+			//计算误差值
+			int64_t abserr = checkpoint - (int64_t)hllCount(_registers, NULL);
+			uint64_t maxerr = ceil(relerr * 6 * checkpoint);//返回大于或者等于指定表达式的最小整数
+
+			if (j == 10)
+			{
+				maxerr = 1;
+			}
+
+			if (abserr < 0)
+			{
+				abserr = -abserr;
+			}
+			//判断是否大于错误可能性
+			if (abserr >(int64_t)maxerr)
+			{
+				printf("[%s][%d]TESTFAILED Too big error. card:%llu abserr:%llu\n", __FUNCTION__, __LINE__, (unsigned long long) checkpoint, (unsigned long long) abserr);
+				return false;
+			}
+			checkpoint *= 10;
+		}
+
+	}
+
+
+	long count = hllCount(_registers, NULL);
+	printf("[count = %ld]\n", count);
+	//printf("[hex =\n");
+	//for (int i = 0; i < HLL_DENSE_SIZE; ++i)
+	//{
+	//	printf("%c", s_hex_digits[_registers[i] / 16]);
+	//	if (i % 20 == 0)
+	//	{
+	//		printf("\n");
+	//	}
+	//}
+	//printf("]\n");
 
 	if (_registers)
 	{
 		::free(_registers);
 	}
-	
+	return true;
+}
+
+
+
+
+
+
+int main(int argc, char* argv[])
+{
+
+	if (hyperloglog_test())
+	{
+		printf("[info]ok\n");
+	}
+	else
+	{
+		printf("[error] fail!!!\n");
+	}
 	return EXIT_SUCCESS;
 }
