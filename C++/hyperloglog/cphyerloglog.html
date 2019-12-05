@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>布隆过滤器计算器</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>布隆过滤器计算器</h1>
+		<p>
+			输入布隆过滤器的大小和可接受的错误率，将显示最佳配置。有关 如何计算的 信息，
+			<a href="http://stackoverflow.com/questions/658439/how-many-hash-functions-does-my-bloom-filter-need">
+				请参 见此堆栈溢出文章 。
+			</a>
+		</p>
+
+		<form class="form-horizontal">
+		<fieldset>
+
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="count">
+				Count ( <em>n</em> )
+			</label>
+
+			<div class="col-md-4">
+				<input id="count" placeholder="300" class="form-control input-md" type="text">
+				<span class="help-block">
+					您希望添加到过滤器中的项目数。您可以使用基本算术。</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="error">
+				Error ( <em>p</em> )
+			</label>
+
+			<div class="col-md-4">
+				<input id="error" placeholder="0.001" class="form-control input-md" type="text">
+				<span class="help-block">最大允许误差(0.01 = 1%)</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="funcs">
+				Functions ( <em>k</em> )
+			</label>
+
+			<div class="col-md-4">
+				<div id="funcs" class="form-control">
+				</div>
+				<span class="help-block">散列函数数</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-md-4 control-label" for="size">
+				Size ( <em>m</em> )
+			</label>
+
+			<div class="col-md-4">
+				<div id="size" class="form-control">
+				</div>
+				<span class="help-block">布隆过滤器的大小。通常表示为
+				<em>m</em> 位。</span>
+			</div>
+		</div>
+
+		</fieldset>
+		</form>
+	</div>
+
+<script>
+$(function () {
+	var ln = Math.log;
+	var pow = Math.pow;
+	var ceil = Math.ceil;
+	var n = 0, p = 0, k = 0, m = 0;
+	function format(x) {
+		x = String(x);
+		var n = x.indexOf('.');
+		if (n <= 0) { return x; }
+		return x.substr(0, n + 3);
+	}
+	function evaluate(selector) {
+		var x = $(selector).val();
+		if (x.indexOf('*') > 0 || x.indexOf('+') > 0 || x.indexOf('/') > 0) {
+			x = eval(x);
+		}
+		return Number(x);
+	}
+	function calculate() {
+		n = evaluate("#count");
+		p = evaluate("#error")
+		m = -n * ln(p) / (pow(ln(2), 2));
+		k = m/n * ln(2);
+		$("#funcs").text(format(k));
+		var bits = ceil(m);
+		var kilobits = bits / 1024;
+		var kilobytes = (bits / 8) / 1024;
+		$("#size").text(
+			String(bits) + " 位 " +
+			"(" + format(kilobytes) + " KB)"
+		);
+	}
+	$("#count,#error").keyup(function (e) {
+		calculate();
+	});
+	calculate();
+});
+</script>
+</body>
+</html>
