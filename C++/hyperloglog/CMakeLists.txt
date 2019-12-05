@@ -2,14 +2,19 @@ project(chyperloglog)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 MESSAGE(STATUS "#########################")
 
-file(GLOB ALL_CXX_SRCS
-                       ./*.cpp  ./*.cc
+file(GLOB CHYPERLOGLOG
+                      chyperloglog.cpp
 )
 
-add_executable(${PROJECT_NAME} ${ALL_CXX_SRCS})
+file(GLOB CHYPERLOGLOG_TEST
+                      chyperloglog_test.cpp
+)
+
 
 set(ALL_LIB  	pthread
 				)
 
-
-target_link_libraries(${PROJECT_NAME} ${ALL_LIB})
+add_executable(chyperloglog ${CHYPERLOGLOG})
+target_link_libraries(chyperloglog ${ALL_LIB})
+add_executable(chyperloglog_test ${CHYPERLOGLOG_TEST})
+target_link_libraries(chyperloglog_test ${ALL_LIB})

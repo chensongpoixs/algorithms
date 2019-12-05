@@ -4,6 +4,10 @@
 				author:			chensong
 
 				purpose:		chyperloglog
+				布隆过滤器
+				 1. loglog算法的错误率 		1.3 * 开平方(m)                    -> 几何平均数 = 平方的操作即子数
+				 2. hyperloglog算法的错误率 1.04 * 开平方(m) ---> m是桶的数量  -> 调和平均数 = n/(1/x1 + 1/x2+...+1/xn)
+				 
 ************************************************************************************************/
 
 
@@ -14,7 +18,7 @@ static const int  HLL_P = 14; /* The greater is P, the smaller the error. */
 static const int HLL_Q = 50; /* The number of bits of the hash value used for*/
 
 static const int HLL_BITS = 6;
-static const int HLL_REGISTERS = 16384;
+static const int HLL_REGISTERS = 16384;   // 分桶数 = 2^p = 16384;
 static const int HLL_DENSE_SIZE = (HLL_REGISTERS*HLL_BITS + 7) / 8;
 static const int HLL_TEST_CYCLES = 1000;
 static const int HLL_P_MASK = 16383; //  ‭0011 1111 1111 1111‬
@@ -26,17 +30,17 @@ uint8_t  *_registers;//data bytes
 					 /* Our hash function is MurmurHash2, 64 bit version.
 					 * It was modified for Redis in order to provide the same result in
 					 * big and little endian archs (endian neutral). */
-uint64_t MurmurHash64A(const void * key, int len, unsigned int seed) {
+uint64_t MurmurHash64A(const void * key, int len, unsigned int seed) 
+{
 	const uint64_t m = 0xc6a4a7935bd1e995;
 	const int r = 47;
 	uint64_t h = seed ^ (len * m);
 	const uint8_t *data = (const uint8_t *)key;
 	const uint8_t *end = data + (len - (len & 7));
 
-	while (data != end) {
+	while (data != end) 
+	{
 		uint64_t k;
-
-
 		k = (uint64_t)data[0];
 		k |= (uint64_t)data[1] << 8;
 		k |= (uint64_t)data[2] << 16;
@@ -45,8 +49,6 @@ uint64_t MurmurHash64A(const void * key, int len, unsigned int seed) {
 		k |= (uint64_t)data[5] << 40;
 		k |= (uint64_t)data[6] << 48;
 		k |= (uint64_t)data[7] << 56;
-
-
 		k *= m;
 		k ^= k >> r;
 		k *= m;
@@ -55,7 +57,8 @@ uint64_t MurmurHash64A(const void * key, int len, unsigned int seed) {
 		data += 8;
 	}
 
-	switch (len & 7) {
+	switch (len & 7) 
+	{
 	case 7: h ^= (uint64_t)data[6] << 48; /* fall-thru */
 	case 6: h ^= (uint64_t)data[5] << 40; /* fall-thru */
 	case 5: h ^= (uint64_t)data[4] << 32; /* fall-thru */
