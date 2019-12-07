@@ -148,6 +148,6 @@ int main(int argc,  char *argv[])
 		time_t scend_time = end_time - start_time;
 		printf("[i= %d][secend = %d]\n", i, scend_time );
 	}
-	system("pause");
+	
 	return EXIT_SUCCESS;
 }
