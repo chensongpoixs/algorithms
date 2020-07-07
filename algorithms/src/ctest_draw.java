@@ -54,7 +54,7 @@ public class ctest_draw {
 //        StdDraw.rectangle(0.5,0.5,0.2,0.4);
  
 //        11、画出一个矩形，并进行填充
-//        StdDraw.filledRectangle(0.5,0.5,0.2,0.4);
+        StdDraw.filledRectangle(0.5,0.5,0.2,0.4);
  
     }
  
@@ -123,32 +123,87 @@ public class ctest_draw {
     }
  
     //已排序的随机数组
-    private static void random_array_sort() {
-        int N = 50;
-        double[] a = new double[N];
+    private static void random_array_sort() throws InterruptedException {
+        int N = 10;
+        int[] a = {78, 23, 56, 12, 1, 100, 23, 11, 9, 2};//new int[N];
         //随机得到0-1之间的实数,并对数组进行赋值
-        for (int i = 0; i < N; i++) a[i] = StdRandom.random();
+        //for (int i = 0; i < N; i++) a[i] = (int) StdRandom.random();
         //对数组中的值进行排序
-        Arrays.sort(a);
-        for (int i = 0; i < N; i++) {
-            //乘以1.0为的是将其变为double类型
-            double x = 1.0 * i / N;
-            double y = a[i] / 2.0;
- 
-            double width = 0.5 / N;
- 
-            double high = a[i] / 2.0;
-            StdDraw.filledRectangle(x, y, width, high);
+       // Arrays.sort(a);
+        StdDraw.setPenColor(StdDraw.RED);
+        for (int w = 0; w < N; ++w)
+        {
+        	int min_index = w;
+        	for (int p = w; p < N ; ++p)
+        	{
+        		if (a[min_index] > a[p])
+        		{
+        			min_index = p;
+        		}
+        		Thread.currentThread().sleep(100) ;
+        		
+            	StdDraw.clear();
+        		for (int i = 0; i < N; i++) {
+                    //乘以1.0为的是将其变为double类型
+                    double x = 1.0 * i / N;
+                    double y = a[i] / 200.0;
+         
+                    double width = 0.5 / N;
+         
+                    double high = a[i] / 200.0;
+                   
+                    StdDraw.filledRectangle(x, y, width, high);
+                   
+                }
+        		StdDraw.show();
+        	}
+        	System.out.println();
+        	int temp = a[min_index];
+        	a[min_index] = a[w];
+        	a[w] = temp;
+        	System.out.print(a[min_index]);
+            Thread.currentThread().sleep(100) ;
+    		
+        	StdDraw.clear();
+    		for (int i = 0; i < N; i++) {
+                //乘以1.0为的是将其变为double类型
+                double x = 1.0 * i / N;
+                double y = a[i] / 200.0;
+     
+                double width = 0.5 / N;
+     
+                double high = a[i] / 200.0;
+               
+                StdDraw.filledRectangle(x, y, width, high);
+               
+            }
+    		StdDraw.show();
+    		
         }
+//        Arrays.sort(a);
+//////        Thread.currentThread().sleep(10) ;
+//		for (int i = 0; i < N; i++) {
+//            //乘以1.0为的是将其变为double类型
+//			System.out.println(a[i]);
+//            double x = 1.0 * i / N;
+//            double y = a[i] / 200.0;
+// 
+//            double width = 0.5 / N;
+// 
+//            double high = a[i] / 200.0;
+//            StdDraw.filledRectangle(x, y, width, high);
+//        }
+		
+		System.out.println("end");
     }
  
  
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //绘图方法
 //        Drawing();
  
         //控制方法
-//        control();
+        //control();
  
         //函数值
 //        def_value();
@@ -157,7 +212,7 @@ public class ctest_draw {
 //        random_array();
  
         //以排序的随机数组
-//        random_array_sort();
+        random_array_sort();
  
     }
 
