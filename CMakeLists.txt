@@ -11,7 +11,7 @@ ADD_DEFINITIONS(-g -Wall )
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 
-#add_subdirectory(find_sort)
+add_subdirectory(C++/sort)
 #add_subdirectory(hyperloglog)
 
 
