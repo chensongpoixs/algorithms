@@ -57,9 +57,45 @@ public class Quick {
     private static void sort(Comparable[] a, int lo, int hi) { 
         if (hi <= lo) return;
         int j = partition(a, lo, hi);
+        int n = a.length;
+        
+        
+      
+        
         sort(a, lo, j-1);
         sort(a, j+1, hi);
         assert isSorted(a, lo, hi);
+        try {
+			Thread.currentThread().sleep(1000) ;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        StdDraw.clear();
+        for (int num = 0; num <  n; ++num)
+        {
+        	 //乘以1.0为的是将其变为double类型
+            double x = 1.0 * num / n;
+            double y = Integer.valueOf((String) a[num]) / 60.0;
+ 
+            double width = 0.5 / n;
+ 
+            double high = Integer.valueOf((String) a[num])  / 60.0;
+
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.filledRectangle(x, y, width, high);
+            StdDraw.setPenColor(StdDraw.BOOK_BLUE);
+            StdDraw.text(x, y, a[num].toString());
+            //            StdDraw.filledRectangle(x, y, width, high);
+//        	 double x = (num * 1.0);
+//           double y = 1.0 *  a[num].hashCode();
+//
+//           double width = 1.0;
+//
+//           double high = a[num].hashCode() ;
+//        	StdDraw.filledRectangle(x,  y, width, high);
+        }
+        StdDraw.show();
     }
 
     // partition the subarray a[lo..hi] so that a[lo..j-1] <= a[j] <= a[j+1..hi]
@@ -127,7 +163,8 @@ public class Quick {
     // is v < w ?
     private static boolean less(Comparable v, Comparable w) {
         if (v == w) return false;   // optimization when reference equals
-        return v.compareTo(w) < 0;
+//        return v.compareTo(w) < 0;
+        return Integer.valueOf((String) v) <Integer.valueOf((String) w) ;
     }
         
     // exchange a[i] and a[j]
@@ -158,6 +195,43 @@ public class Quick {
             StdOut.print(a[i]);
         }
         StdOut.println();
+        
+        try {
+			Thread.currentThread().sleep(1000) ;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        int n = a.length;
+        StdDraw.clear();
+        for (int num = 0; num <  n; ++num)
+        {
+        	 //乘以1.0为的是将其变为double类型
+            double x = 1.0 * num / n;
+            double y = Integer.valueOf((String) a[num]) / 60.0;
+ 
+            double width = 0.5 / n;
+ 
+            double high = Integer.valueOf((String) a[num])  / 60.0;
+
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.filledRectangle(x, y, width, high);
+            StdDraw.setPenColor(StdDraw.BOOK_BLUE);
+            StdDraw.text(x, y, a[num].toString());
+            //            StdDraw.filledRectangle(x, y, width, high);
+          //乘以1.0为的是将其变为double类型
+//            double x = 1.0 * i / N;
+//            double y = a[i] / 200.0;
+// 
+//            double width = 0.5 / N;
+// 
+//            double high = a[i] / 200.0;
+//            StdDraw.setPenColor(StdDraw.RED);
+//            StdDraw.filledRectangle(x, y, width, high);
+//            StdDraw.setPenColor(StdDraw.BOOK_BLUE);
+//            StdDraw.text(x, y, ((Integer)a[i]).toString());
+        }
+        StdDraw.show();
     }
 
     /**
@@ -172,16 +246,16 @@ public class Quick {
     {
 //        String[] a = StdIn.readAllStrings();
     	 String[] a = new String[10] ;
-    	 a[0] = "E";
-    	 a[1] = "D";
-    	 a[2] = "F";
-    	 a[3] = "O";
-    	 a[4] = "W";
-    	 a[5] = "J";
-    	 a[6] = "A";
-    	 a[7] = "C";
-    	 a[8] = "B";
-    	 a[9] = "P";
+    	 a[0] = "16";
+       	 a[1] = "14";
+       	 a[2] = "3";
+       	 a[3] = "6";
+       	 a[4] = "2";
+       	 a[5] = "4";
+       	 a[6] = "5";
+       	 a[7] = "23";
+       	 a[8] = "20";
+       	 a[9] = "10";
 //    	 System.out.println(a[3]);
 //    	 a = {"78", "23", "56", "12", "1", "100", "23", "11", "9", "2"};
 //    	 int [] array = {78, 23, 56, 12, 1, 100, 23, 11, 9, 2};

@@ -68,17 +68,26 @@ public class Shell {
 //					System..sleep(1000); 
 					//StdDraw.clear();
 
-//                   
+                   
                     for (int num = 0; num < n ; ++num)
                     {
-                    	 double x = (num * 1.0);
-                       double y = 1.0 *  a[num].hashCode();
-            
-                       double width = 1.0;
-            
-                       double high = a[num].hashCode() ;
-                    	StdDraw.filledRectangle(x,  y, width, high);
+                    	 //乘以1.0为的是将其变为double类型
+                        double x = 1.0 * num / n;
+                        double y = Integer.valueOf((String) a[num]) / 2.0;
+             
+                        double width = 0.5 / n;
+             
+                        double high = Integer.valueOf((String) a[num])  / 2.0;
+                        StdDraw.filledRectangle(x, y, width, high);
+//                    	 double x = (num * 1.0);
+//                       double y = 1.0 *  a[num].hashCode();
+//            
+//                       double width = 1.0;
+//            
+//                       double high = a[num].hashCode() ;
+//                    	StdDraw.filledRectangle(x,  y, width, high);
                     }
+                   
                 }
             }
             assert isHsorted(a, h); 
@@ -138,16 +147,16 @@ public class Shell {
     public static void main(String[] args) {
 //        String[] a = StdIn.readAllStrings();
     	String[] a = new String[10] ;
-   	 a[0] = "E";
-   	 a[1] = "D";
-   	 a[2] = "F";
-   	 a[3] = "O";
-   	 a[4] = "W";
-   	 a[5] = "J";
-   	 a[6] = "A";
-   	 a[7] = "C";
-   	 a[8] = "B";
-   	 a[9] = "P";
+   	 a[0] = "16";
+   	 a[1] = "34";
+   	 a[2] = "3";
+   	 a[3] = "4";
+   	 a[4] = "2";
+   	 a[5] = "24";
+   	 a[6] = "56";
+   	 a[7] = "50";
+   	 a[8] = "70";
+   	 a[9] = "10";
         Shell.sort(a);
         show(a);
     }
