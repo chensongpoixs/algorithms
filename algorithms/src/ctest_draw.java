@@ -35,6 +35,7 @@ public class ctest_draw {
          * */
         double[] x = {0.2, 0.3, 0.4};
         double[] y = {0.1, 0.6, 0.9};
+        
 //        StdDraw.polygon(x, y);
 //      6、画出多边型，并进行填充，默认是黑色
 //        StdDraw.filledPolygon(x, y);
@@ -55,6 +56,10 @@ public class ctest_draw {
  
 //        11、画出一个矩形，并进行填充
         StdDraw.filledRectangle(0.5,0.5,0.2,0.4);
+        StdDraw.setPenRadius(0.01);
+
+        StdDraw.setPenColor(StdDraw.RED);
+        StdDraw.text(0.5, 0.5, "wangrong");
  
     }
  
@@ -130,7 +135,7 @@ public class ctest_draw {
         //for (int i = 0; i < N; i++) a[i] = (int) StdRandom.random();
         //对数组中的值进行排序
        // Arrays.sort(a);
-        StdDraw.setPenColor(StdDraw.RED);
+       
         for (int w = 0; w < N; ++w)
         {
         	int min_index = w;
@@ -140,29 +145,30 @@ public class ctest_draw {
         		{
         			min_index = p;
         		}
-        		Thread.currentThread().sleep(100) ;
-        		
-            	StdDraw.clear();
-        		for (int i = 0; i < N; i++) {
-                    //乘以1.0为的是将其变为double类型
-                    double x = 1.0 * i / N;
-                    double y = a[i] / 200.0;
-         
-                    double width = 0.5 / N;
-         
-                    double high = a[i] / 200.0;
-                   
-                    StdDraw.filledRectangle(x, y, width, high);
-                   
-                }
-        		StdDraw.show();
+//        		Thread.currentThread().sleep(1000) ;
+//        		
+//            	StdDraw.clear();
+//        		for (int i = 0; i < N; i++) {
+//                    //乘以1.0为的是将其变为double类型
+//                    double x = 1.0 * i / N;
+//                    double y = a[i] / 200.0;
+//         
+//                    double width = 0.5 / N;
+//         
+//                    double high = a[i] / 200.0;
+//                    StdDraw.setPenColor(StdDraw.RED);            
+//                    StdDraw.filledRectangle(x, y, width, high);
+//                    StdDraw.setPenColor(StdDraw.BOOK_BLUE);
+//                    StdDraw.text(x, y, ((Integer)a[i]).toString());
+//                }
+//        		StdDraw.show();
         	}
         	System.out.println();
         	int temp = a[min_index];
         	a[min_index] = a[w];
         	a[w] = temp;
         	System.out.print(a[min_index]);
-            Thread.currentThread().sleep(100) ;
+            Thread.currentThread().sleep(1000) ;
     		
         	StdDraw.clear();
     		for (int i = 0; i < N; i++) {
@@ -173,9 +179,10 @@ public class ctest_draw {
                 double width = 0.5 / N;
      
                 double high = a[i] / 200.0;
-               
+                StdDraw.setPenColor(StdDraw.RED);
                 StdDraw.filledRectangle(x, y, width, high);
-               
+                StdDraw.setPenColor(StdDraw.BOOK_BLUE);
+                StdDraw.text(x, y, ((Integer)a[i]).toString());
             }
     		StdDraw.show();
     		
