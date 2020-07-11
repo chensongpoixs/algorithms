@@ -5,5 +5,7 @@ C++/bin/*
 algorithms/.settings
 algorithms/bin/*
 algorithms/.classpath
-algorithms/p.png
+algorithms/d.png
 algorithms/.project
+bin/*
+build/*
