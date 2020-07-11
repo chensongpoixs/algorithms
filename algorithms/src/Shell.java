@@ -1,3 +1,5 @@
+import src.cmap;
+
 /******************************************************************************
  *  Compilation:  javac Shell.java
  *  Execution:    java Shell < input.txt
@@ -48,6 +50,130 @@ public class Shell {
     private Shell() { }
 
     /**
+     * 当前数组中的元素
+     * @param a
+     * @param h
+     * @param parent
+     */
+    public static void show(Comparable[] a, int h, int parent, int array_len)
+    {
+    	int  n = a.length;
+    	try {
+ 			Thread.currentThread().sleep(1000) ;
+ 		} catch (InterruptedException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+        StdDraw.clear();
+        for (int num = 0; num <  n; ++num)
+        {
+        	 //乘以1.0为的是将其变为double类型
+            double x = 1.0 * num /n +0.05;
+            
+            double y = Integer.valueOf( cmap.get_value( (String) a[num])) / 200.0;
+ 
+            double width = 0.5 / (n +1)  ;
+ 
+            double high = Integer.valueOf( cmap.get_value( (String) a[num]))  / 200.0;
+            
+        	if (parent == num) //记录当前数组中最小的下标
+            {
+             	StdDraw.setPenColor(StdDraw.BLUE);
+            } 
+        	else if (((num ) % h == (array_len % h) && num <= array_len) || array_len == num) //是当前要比较数组中元素都显示绿色
+            {
+             	StdDraw.setPenColor(StdDraw.GREEN);
+             }
+            else 
+            { //不是当前数组的元素显示颜色
+            	 
+//                 else
+                 {
+                 	  StdDraw.setPenColor(StdDraw.MAGENTA);
+                 }
+            }
+            StdDraw.filledRectangle(x, y, width, high);
+            StdDraw.setPenColor(StdDraw.YELLOW);
+            System.out.println("x =" + x);
+            if (((num ) % h == (array_len % h) && num <= array_len) || array_len == num)
+            {
+            	 StdDraw.text(x, y, "h="+ h +"- "+ cmap.get_value( (String) a[num])); 	
+            }
+            else 
+            {
+            	 StdDraw.text(x, y, cmap.get_value( (String) a[num]));
+            }
+           
+        }
+        StdDraw.show();
+    }
+    /**
+     * 两个比较的元素
+     * @param a
+     * @param h
+     * @param parent
+     * @param cur
+     * @param array_len 
+     */
+    public static void show(Comparable[] a, int h, int parent, int cur, int array_len)
+    {
+    	 StdOut.println(" red h = " + h + ", parent = " + parent + ", cur = " + cur + ", array_len = " + array_len);
+    	
+    	
+    	int  n = a.length;
+    	try {
+ 			Thread.currentThread().sleep(1000) ;
+ 		} catch (InterruptedException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+        StdDraw.clear();
+        for (int num = 0; num <  n; ++num)
+        {
+        	 //乘以1.0为的是将其变为double类型
+            double x = 1.0 * num /n +0.05;
+            
+            double y = Integer.valueOf( cmap.get_value( (String) a[num])) / 200.0;
+ 
+            double width = 0.5 / (n +1)  ;
+ 
+            double high = Integer.valueOf( cmap.get_value( (String) a[num]))  / 200.0;
+            //当前节点数据显示红色
+        	if (cur == num)
+            {
+             	StdDraw.setPenColor(StdDraw.RED);
+            } 
+        	else if (parent == num) //记录当前数组中最小的下标
+            {
+             	StdDraw.setPenColor(StdDraw.BLUE);
+            } 
+        	else if (((num ) % h == (array_len % h) && num <= array_len) || array_len == num) //是当前要比较数组中元素都显示绿色
+            {
+             	StdDraw.setPenColor(StdDraw.GREEN);
+            }
+            else 
+            { //不是当前数组的元素显示颜色
+            	 
+//                 else
+                 {
+                 	  StdDraw.setPenColor(StdDraw.MAGENTA);
+                 }
+            }
+            StdDraw.filledRectangle(x, y, width, high);
+            StdDraw.setPenColor(StdDraw.YELLOW);
+            System.out.println("x =" + x);
+            if (((num ) % h == (array_len % h) && num <= array_len) || array_len == num)
+            {
+            	 StdDraw.text(x, y, "h="+ h +"-"+ cmap.get_value( (String) a[num])); 	
+            }
+            else 
+            {
+            	 StdDraw.text(x, y, cmap.get_value( (String) a[num]));
+            }
+        }
+        StdDraw.show();
+    }
+    /**
      * Rearranges the array in ascending order, using the natural order.
      * @param a the array to be sorted
      */
@@ -56,44 +182,39 @@ public class Shell {
 
         // 3x+1 increment sequence:  1, 4, 13, 40, 121, 364, 1093, ... 
         int h = 1;
-        while (h < n/3) h = 3*h + 1; 
+        while (h < n/3) 
+        {
+        	h = 3*h + 1;
+        }
 
-        while (h >= 1) {
+        while (h >= 1)
+        {
+//        	show(a, h, -1, -1);
             // h-sort the array
-            for (int i = h; i < n; i++) {
-                for (int j = i; j >= h && less(a[j], a[j-h]); j -= h) {
-                    exch(a, j, j-h);
-                    show(a);
-				//	StdDraw.show();
-//					System..sleep(1000); 
-					//StdDraw.clear();
-
-                   
-                    for (int num = 0; num < n ; ++num)
-                    {
-                    	 //乘以1.0为的是将其变为double类型
-                        double x = 1.0 * num / n;
-                        double y = Integer.valueOf((String) a[num]) / 2.0;
-             
-                        double width = 0.5 / n;
-             
-                        double high = Integer.valueOf((String) a[num])  / 2.0;
-                        StdDraw.filledRectangle(x, y, width, high);
-//                    	 double x = (num * 1.0);
-//                       double y = 1.0 *  a[num].hashCode();
-//            
-//                       double width = 1.0;
-//            
-//                       double high = a[num].hashCode() ;
-//                    	StdDraw.filledRectangle(x,  y, width, high);
-                    }
-                   
+            for (int i = h; i < n; i++) 
+            {
+            	show(a, h, i, i);
+                for (int j = i; j >= h ; j -= h) 
+                {
+                	show(a, h, j, j-h, i);
+                	if (less(a[j], a[j-h]))
+                	{
+                		exch(a, j, j-h);
+                        show(a);
+                	}
+                	else 
+                	{
+                		break;
+                	}
+                    
+                    show(a, h, j, i);
                 }
             }
             assert isHsorted(a, h); 
             h /= 3;
         }
         assert isSorted(a);
+        StdDraw.show(a, a.length);
     }
 
 
@@ -133,9 +254,11 @@ public class Shell {
 
     // print array to standard output
     private static void show(Comparable[] a) {
-        for (int i = 0; i < a.length; i++) {
-            StdOut.println(a[i]);
+        for (int i = 0; i < a.length; i++)
+        {
+            StdOut.print(cmap.get_value((String)a[i]) + "  ");
         }
+        StdOut.println();
     }
 
     /**
@@ -146,17 +269,19 @@ public class Shell {
      */
     public static void main(String[] args) {
 //        String[] a = StdIn.readAllStrings();
-    	String[] a = new String[10] ;
-   	 a[0] = "16";
-   	 a[1] = "34";
-   	 a[2] = "3";
-   	 a[3] = "4";
-   	 a[4] = "2";
-   	 a[5] = "24";
-   	 a[6] = "56";
-   	 a[7] = "50";
-   	 a[8] = "70";
-   	 a[9] = "10";
+//    	String[] a = new String[10] ;
+    	 String[] a = new String[10] ;
+    	 a[0] = "a";
+       	 a[1] = "M";
+       	 a[2] = "W";
+       	 a[3] = "I";
+       	 a[4] = "!";
+       	 a[5] = "z";
+       	 a[6] = "Q";
+       	 a[7] = "B";
+       	 a[8] = "6";
+       	 a[9] = "&";
+       	 cmap.init();
         Shell.sort(a);
         show(a);
     }
