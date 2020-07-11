@@ -75,6 +75,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import src.cmap;
+
 /**
  *  The {@code StdDraw} class provides a basic capability for
  *  creating drawings with your programs. It uses a simple graphics model that
@@ -2087,6 +2089,156 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         StdDraw.text(0.8, 0.8, "white text");
     }
 
+    /**
+               *  显示所有的数据
+     * @param a
+     */
+    public static void show(Comparable[] a, int orderly_index)
+    {
+    	int n = a.length;
+    	try {
+ 			Thread.currentThread().sleep(1000) ;
+ 		} catch (InterruptedException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+        StdDraw.clear();
+        for (int num = 0; num <  n; ++num)
+        {
+        	 //乘以1.0为的是将其变为double类型
+            double x = 1.0 * num /n +0.05;
+            
+            double y = Integer.valueOf( cmap.get_value( (String) a[num])) / 200.0;
+ 
+            double width = 0.5 / (n +1) ;
+ 
+            double high = Integer.valueOf( cmap.get_value( (String) a[num]))  / 200.0;
+            
+            if (num < orderly_index)
+            {
+            	StdDraw.setPenColor(StdDraw.GREEN);
+            }
+            else
+            {
+            	 StdDraw.setPenColor(StdDraw.MAGENTA);
+            }
+            
+            StdDraw.filledRectangle(x, y, width, high);
+            StdDraw.setPenColor(StdDraw.YELLOW);
+            System.out.println("x =" + x);
+            StdDraw.text(x, y, cmap.get_value( (String) a[num]));
+        }
+        StdDraw.show();
+    }
+    /**
+     * 显示当前min值位置图像
+     * @param a
+     * @param parent : min
+     */
+    public static void show(Comparable[] a,int orderly_index, int parent)
+    {
+    	int n = a.length;
+    	try {
+ 			Thread.currentThread().sleep(1000) ;
+ 		} catch (InterruptedException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+        StdDraw.clear();
+        for (int num = 0; num <  n; ++num)
+        {
+        	 //乘以1.0为的是将其变为double类型
+            double x = 1.0 * num /n +0.05;
+            
+            double y = Integer.valueOf( cmap.get_value( (String) a[num])) / 200.0;
+ 
+            double width = 0.5 / (n +1) ;
+ 
+            double high = Integer.valueOf( cmap.get_value( (String) a[num]))  / 200.0;
+           
+            if (parent == num)
+            {
+            	StdDraw.setPenColor(StdDraw.BLUE);
+            }
+            else if (num < orderly_index)
+            {
+            	StdDraw.setPenColor(StdDraw.GREEN);
+            }
+            else 
+            {
+            	
+//                else 
+                {
+                	  StdDraw.setPenColor(StdDraw.MAGENTA);
+                }
+            }
+            
+            
+            StdDraw.filledRectangle(x, y, width, high);
+            StdDraw.setPenColor(StdDraw.YELLOW);
+            System.out.println("x =" + x);
+            StdDraw.text(x, y, cmap.get_value( (String) a[num]));
+        }
+        StdDraw.show();
+    }
+    
+    
+    /**
+     * 显示当前查找时的比较min
+     * @param a
+     * @param parent
+     * @param cur
+     */
+    public static void show(Comparable[] a, int orderly_index ,int parent, int cur)
+    {
+    	int n = a.length;
+    	try {
+ 			Thread.currentThread().sleep(1000) ;
+ 		} catch (InterruptedException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+        StdDraw.clear();
+        for (int num = 0; num <  n; ++num)
+        {
+        	 //乘以1.0为的是将其变为double类型
+            double x = 1.0 * num /n +0.05;
+            
+            double y = Integer.valueOf( cmap.get_value( (String) a[num])) / 200.0;
+ 
+            double width = 0.5 / (n +1) ;
+ 
+            double high = Integer.valueOf( cmap.get_value( (String) a[num]))  / 200.0;
+            
+        	if (cur == num)
+            {
+             	StdDraw.setPenColor(StdDraw.RED);
+            }
+        	else if (parent == num)
+            {
+             	StdDraw.setPenColor(StdDraw.BLUE);
+            }
+        	else if (num < orderly_index)
+            {
+             	StdDraw.setPenColor(StdDraw.GREEN);
+             }
+            else 
+            {
+            	 
+//                 else
+                 {
+                 	  StdDraw.setPenColor(StdDraw.MAGENTA);
+                 }
+            }
+            StdDraw.filledRectangle(x, y, width, high);
+            StdDraw.setPenColor(StdDraw.YELLOW);
+            System.out.println("x =" + x);
+            StdDraw.text(x, y, cmap.get_value( (String) a[num]));
+        }
+        StdDraw.show();
+    }
+    
+    
 }
 
 /******************************************************************************

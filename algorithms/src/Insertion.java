@@ -21,9 +21,10 @@
  *
  ******************************************************************************/
 
-package edu.princeton.cs.algs4;
 
 import java.util.Comparator;
+
+import src.cmap;
 
 /**
  *  The {@code Insertion} class provides static methods for sorting an
@@ -59,13 +60,29 @@ public class Insertion {
      */
     public static void sort(Comparable[] a) {
         int n = a.length;
-        for (int i = 1; i < n; i++) {
-            for (int j = i; j > 0 && less(a[j], a[j-1]); j--) {
-                exch(a, j, j-1);
+        StdDraw.show(a, -1);
+        for (int i = 1; i < n; i++) 
+        {
+        	StdDraw.show(a, i, i);
+            for (int j = i; j > 0 ; j--) 
+            {
+            	StdDraw.show(a, i, j, j-1);
+            	if (less(a[j], a[j-1]))
+            	{
+            		 exch(a, j, j-1);	
+            	}
+            	else 
+            	{
+            		break;
+            	}
+            	StdDraw.show(a, i, j-1);
+               
             }
             assert isSorted(a, 0, i);
+        
         }
         assert isSorted(a);
+        StdDraw.show(a, a.length);
     }
 
     /**
@@ -193,8 +210,9 @@ public class Insertion {
    // print array to standard output
     private static void show(Comparable[] a) {
         for (int i = 0; i < a.length; i++) {
-            StdOut.println(a[i]);
+            StdOut.print(cmap.get_value((String) a[i]));
         }
+        StdOut.println();
     }
 
     /**
@@ -204,7 +222,19 @@ public class Insertion {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        String[] a = StdIn.readAllStrings();
+//        String[] a = StdIn.readAllStrings();
+    	 String[] a = new String[10] ;
+    	 a[0] = "a";
+       	 a[1] = "M";
+       	 a[2] = "W";
+       	 a[3] = "I";
+       	 a[4] = "!";
+       	 a[5] = "z";
+       	 a[6] = "Q";
+       	 a[7] = "B";
+       	 a[8] = "6";
+       	 a[9] = "&";
+       	 cmap.init();
         Insertion.sort(a);
         show(a);
     }

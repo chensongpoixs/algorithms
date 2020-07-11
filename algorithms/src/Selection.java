@@ -21,9 +21,10 @@
  *
  ******************************************************************************/
 
-package edu.princeton.cs.algs4;
 
 import java.util.Comparator;
+
+import src.cmap;
 
 /**
  *  The {@code Selection} class provides static methods for sorting an
@@ -44,6 +45,7 @@ import java.util.Comparator;
  */
 public class Selection {
 
+	
     // This class should not be instantiated.
     private Selection() { }
 
@@ -55,13 +57,24 @@ public class Selection {
         int n = a.length;
         for (int i = 0; i < n; i++) {
             int min = i;
-            for (int j = i+1; j < n; j++) {
-                if (less(a[j], a[min])) min = j;
+            for (int j = i+1; j < n; j++) 
+            {
+            	StdDraw.show(a,i, min, j);
+                if (less(a[j], a[min]))
+                {
+                	 min = j;
+                	 StdDraw.show(a,i, min, min);
+
+                }
             }
             exch(a, i, min);
+            StdDraw.show(a, i, i);
             assert isSorted(a, 0, i);
         }
         assert isSorted(a);
+        
+        
+       StdDraw.show(a, a.length);
     }
 
     /**
@@ -139,8 +152,9 @@ public class Selection {
     // print array to standard output
     private static void show(Comparable[] a) {
         for (int i = 0; i < a.length; i++) {
-            StdOut.println(a[i]);
+            StdOut.print(cmap.get_value((String) a[i])+"  ");
         }
+        StdOut.println();
     }
 
     /**
@@ -150,8 +164,21 @@ public class Selection {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        String[] a = StdIn.readAllStrings();
-        Selection.sort(a);
+//        String[] a = StdIn.readAllStrings();
+    	 String[] a = new String[10] ;
+    	 a[0] = "a";
+       	 a[1] = "M";
+       	 a[2] = "W";
+       	 a[3] = "I";
+       	 a[4] = "!";
+       	 a[5] = "z";
+       	 a[6] = "Q";
+       	 a[7] = "B";
+       	 a[8] = "6";
+       	 a[9] = "&";
+       	 cmap.init();
+       	 show(a);
+    	Selection.sort(a);
         show(a);
     }
 }

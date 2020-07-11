@@ -54,7 +54,8 @@ public class Quick {
     }
 
     // quicksort the subarray from a[lo] to a[hi]
-    private static void sort(Comparable[] a, int lo, int hi) { 
+    @SuppressWarnings("static-access")
+	private static void sort(Comparable[] a, int lo, int hi) { 
         if (hi <= lo) return;
         int j = partition(a, lo, hi);
         int n = a.length;
@@ -86,14 +87,6 @@ public class Quick {
             StdDraw.filledRectangle(x, y, width, high);
             StdDraw.setPenColor(StdDraw.BOOK_BLUE);
             StdDraw.text(x, y, a[num].toString());
-            //            StdDraw.filledRectangle(x, y, width, high);
-//        	 double x = (num * 1.0);
-//           double y = 1.0 *  a[num].hashCode();
-//
-//           double width = 1.0;
-//
-//           double high = a[num].hashCode() ;
-//        	StdDraw.filledRectangle(x,  y, width, high);
         }
         StdDraw.show();
     }

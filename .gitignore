@@ -2,3 +2,8 @@
 java/*
 C++/cmake-build-debug/*
 C++/bin/*
+algorithms/.settings
+algorithms/bin/*
+algorithms/.classpath
+algorithms/p.png
+algorithms/.project
