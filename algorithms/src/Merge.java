@@ -92,24 +92,20 @@ public class Merge {
           StdDraw.show();
     	
     }
-    public static void show(Comparable[] a, Comparable[] aux, int lo, int mid, int hi, int lox_num, int mid_y_num )
+    public static void show(Comparable[] a, Comparable[] aux, int lo, int mid, int hi, int show_num, int lox_ , int mid_y)
     {
-    	System.out.println("lo =" + lo + ",mid =" + mid + ",hi =" + hi + ", lox_num=" + lox_num + ", mid_y_num =" + mid_y_num);
+    	System.out.println("lo =" + lo + ",mid =" + mid + ",hi =" + hi + ", show_num=" + show_num );
     	int n = a.length;
-    	try {
- 			Thread.currentThread().sleep(1000) ;
- 		} catch (InterruptedException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 		}
+    	
     	  StdDraw.clear();
     	  double y = 0.0;
           double high = 0.0;
-          
+          boolean show = false;
+          int temp_show_num = show_num;
     	  for (int num = 0; num <  n; ++num)
           {
               double x = 1.0 * num /n +0.05;
-              
+              show = false;
               // 1. 没有参与合并数
               // 2. 参与合并的数 
               // 2.1  参与合并的数中在已经排序到mid左边了
@@ -121,51 +117,117 @@ public class Merge {
             	  //设置y  , height
             	  y = 0.5; 
             	  high =   Integer.valueOf(cmap.get_value((String) a[num]))  / 500.000; 
+            	  show = true;
               }
               else 
               {
-            	  if (lox_num > 0 || mid_y_num > 0)
+            	  if (temp_show_num > 0)
             	  {
-            		  if ((lo +lox_num) >num  && num >=lo)
-            		  {
-            			  StdDraw.setPenColor(StdDraw.DARK_GRAY); 
-                    	  //设置y  , height
-                    	  y = 0.5; 
-                    	  high =   Integer.valueOf(cmap.get_value((String) a[num]))  / 500.000; 
-            		  }
-            		  else if ((mid + mid_y_num) >= num && mid <num)
-            		  {
-            			  StdDraw.setPenColor(StdDraw.GREEN); 
-                    	  //设置y  , height
-                    	  y = 0.5; 
-                    	  high =   Integer.valueOf(cmap.get_value((String) a[num]))  / 500.000; 
-            		  }
-            		  else 
-            		  {
-                		  StdDraw.setPenColor(StdDraw.BLUE); 
-                		  y = 0.0;
-                    	  high =   Integer.valueOf(cmap.get_value((String) aux[num]))  / 500.000; 
-                	  }
+            		  StdDraw.setPenColor(StdDraw.GREEN); 
+//                	  //设置y  , height
+                	  y = 0.5; 
+                	  high =   Integer.valueOf(cmap.get_value((String) a[num]))  / 500.000; 
+                	  System.out.println("show_num = num " + num + ", value ="+ cmap.get_value((String) a[num]));
+                	  show = true;
+                	  --temp_show_num;
             	  }
-            	  else 
-            	  {
-            		  StdDraw.setPenColor(StdDraw.BLUE); 
-                	  //设置y  , height
-                	  //y = 0.5; 
-            		  y = 0.0;
-                	  high =   Integer.valueOf(cmap.get_value((String) aux[num]))  / 500.000; 
-            	  
-            	  }  
               }
               double width = 0.5 / (n +1) ;  
        
-             // System.out.println("x =" + x + ", y =" + y + ",width =" + width + ", high=" + high);
-              StdDraw.filledRectangle_bottom(x, y, width, high);
-              StdDraw.setPenColor(StdDraw.YELLOW);
-              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) a[num]));
+             if (show)
+             {
+            	// System.out.println("x =" + x + ", y =" + y + ",width =" + width + ", high=" + high);
+                 StdDraw.filledRectangle_bottom(x, y, width, high);
+                 StdDraw.setPenColor(StdDraw.YELLOW);
+                 StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) a[num]));
+             }
  
           }
+    	  temp_show_num = show_num;
+//    	  System.out.println("temp_show_num = temp_show_num " + temp_show_num );
+//    	 
+    	  
+//    	for (int down = mid;mid>0&& (lox_ +down) > mid; --down)
+//    	{
+//    		if (aux[down] == null)
+//    		{
+//    			 System.out.println("down = null, down =" + down );
+//    			break;
+//    		}
+//    		 System.out.println("lox_ = " + lox_  + ", down =" + down + ", str =" + aux[lo +down]);
+//			  double x = 1.0 * down /n +0.05;
+//    		   y = 0.0;
+//    		   double width = 0.5 / (n +1) ;  
+//    		   StdDraw.setPenColor(StdDraw.BLUE);
+//        	  high =   Integer.valueOf(cmap.get_value((String) aux[down]))  / 500.000; 
+//        	  System.out.println("blue = down " + down + ", value ="+ cmap.get_value((String) aux[down]));
+//        	  StdDraw.filledRectangle_bottom(x, y, width, high);
+//              StdDraw.setPenColor(StdDraw.YELLOW);
+//              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) aux[down]));
+//		  }
+////    		 
+////    	  
+////    	
+//		  for (int down = mid_y; (hi-mid > 0)&&down < (hi-mid) ; ++down)
+//		  {
+//			  if (aux[lo +mid+down] == null)
+//	    		{
+//				  System.out.println("down = null, lo +mid+down+1 =" + lo +mid+down+1 );
+//	    			break;
+//	    		}
+//			  double x = 1.0 * (lo +mid+down) /n +0.05;
+//    		   y = 0.0;
+//    		   double width = 0.5 / (n +1) ;
+//    		   StdDraw.setPenColor(StdDraw.BLUE);
+//        	  high =   Integer.valueOf(cmap.get_value((String) aux[lo+mid+down]))  / 500.000; 
+//        	  System.out.println("down = lo+down " + down + ", value ="+ cmap.get_value((String) aux[lo+mid+down]));
+//        	  StdDraw.filledRectangle_bottom(x, y, width, high);
+//              StdDraw.setPenColor(StdDraw.YELLOW);
+//              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) aux[lo+mid+down]));
+//		  }
+		  for (int down = lo; down <= hi ; ++down)
+		  {
+			  if (aux[down] == null)
+	    		{
+				  System.out.println("down = null,down =" + down );
+	    			break;
+	    		}
+//			if (lox_ > 0 && down < (lox_ +lo))
+//			{
+//				 double x = 1.0 * (down) /n +0.05;
+//	    		   y = 0.0;
+//	    		   double width = 0.5 / (n +1) ;
+//	    		   StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
+//	        	  high =   Integer.valueOf(cmap.get_value((String) aux[down]))  / 500.000; 
+//	        	  System.out.println("down = lo+down " + down + ", value ="+ cmap.get_value((String) aux[down]));
+//	        	  StdDraw.filledRectangle_bottom(x, y, width, high);
+//	              StdDraw.setPenColor(StdDraw.YELLOW);
+//	              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) aux[down]));
+//			}
+//			else if (mid_y >0 && (lo+ mid + mid_y) < down)
+//			{
+//				
+//			}
+//			else 
+			{
+				  double x = 1.0 * (down) /n +0.05;
+	    		   y = 0.0;
+	    		   double width = 0.5 / (n +1) ;
+	    		   StdDraw.setPenColor(StdDraw.BLUE);
+	        	  high =   Integer.valueOf(cmap.get_value((String) aux[down]))  / 500.000; 
+	        	  System.out.println("down = lo+down " + down + ", value ="+ cmap.get_value((String) aux[down]));
+	        	  StdDraw.filledRectangle_bottom(x, y, width, high);
+	              StdDraw.setPenColor(StdDraw.YELLOW);
+	              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) aux[down]));
+			}
+		  }
           StdDraw.show();
+          try {
+   			Thread.currentThread().sleep(1000) ;
+   		} catch (InterruptedException e) {
+   			// TODO Auto-generated catch block
+   			e.printStackTrace();
+   		}
     	
     }
     // stably merge a[lo .. mid] with a[mid+1 ..hi] using aux[lo .. hi]
@@ -181,11 +243,12 @@ public class Merge {
             aux[k] = a[k]; 
         }
 
-        show(a, aux, lo, mid, hi, 0, 0);
+        //show(a, aux, lo, mid, hi, 0);
         // merge back to a[]
         int i = lo, j = mid+1;
         for (int k = lo; k <= hi; k++)
         {
+        	 show(a, aux, lo, mid, hi,    (j -mid -1)+(  i-lo), i-lo, j-mid-1);
         	//判断i> mid 和 j > hi是有可能  
             if      (i > mid)              
             {
@@ -203,9 +266,9 @@ public class Merge {
             {
             	a[k] = aux[i++];
             }
-            show(a, aux, lo, mid, hi, i-lo, j -mid -1);
+           // show(a, aux, lo, mid, hi, i-lo, j -mid -1);
         }
-
+        show(a, aux, lo, mid, hi,  (j -mid -1)+(  i-lo), i-lo, j-mid-1);
         // postcondition: a[lo .. hi] is sorted
         assert isSorted(a, lo, hi);
     }
