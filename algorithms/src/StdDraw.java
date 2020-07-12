@@ -75,7 +75,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import src.cmap;
+import chen.cmap;
 
 /**
  *  The {@code StdDraw} class provides a basic capability for
@@ -574,7 +574,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     private static Color penColor;
 
     // default canvas size is DEFAULT_SIZE-by-DEFAULT_SIZE
-    private static final int DEFAULT_SIZE = 512;
+    private static final int DEFAULT_SIZE = 800;
     private static int width  = DEFAULT_SIZE;
     private static int height = DEFAULT_SIZE;
 
@@ -1224,8 +1224,15 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         double ys = scaleY(y);
         double ws = factorX(2*halfLength);
         double hs = factorY(2*halfLength);
-        if (ws <= 1 && hs <= 1) pixel(x, y);
-        else offscreen.fill(new Rectangle2D.Double(xs - ws/2, ys - hs/2, ws, hs));
+        System.out.println("ws = " + ws + ", hs =" + hs);
+        if (ws <= 1 && hs <= 1) 
+        {
+        	pixel(x, y);
+        }
+        else 
+        {
+        	offscreen.fill(new Rectangle2D.Double(xs - ws/2, ys - hs/2, ws, hs));
+        }
         draw();
     }
 
@@ -1260,7 +1267,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     /**
      * Draws a filled rectangle of the specified size, centered at (<em>x</em>, <em>y</em>).
      *
-     * @param  x the <em>x</em>-coordinate of the center of the rectangle
+     * @param  x the <em>x</em>-coordinate of the center of the rectangle  
      * @param  y the <em>y</em>-coordinate of the center of the rectangle
      * @param  halfWidth one half the width of the rectangle
      * @param  halfHeight one half the height of the rectangle
@@ -1279,11 +1286,50 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         double ys = scaleY(y);
         double ws = factorX(2*halfWidth);
         double hs = factorY(2*halfHeight);
-        if (ws <= 1 && hs <= 1) pixel(x, y);
-        else offscreen.fill(new Rectangle2D.Double(xs - ws/2, ys - hs/2, ws, hs));
+      //  System.out.println("ws = " + ws + ", hs = "  + hs);
+        if (ws <= 1 && hs <= 1) 
+        {
+        	pixel(x, y);
+        }
+        else 
+        {
+        	offscreen.fill(new Rectangle2D.Double(xs - ws/2, ys - hs/2, ws, hs));
+        }
         draw();
     }
+    
+    
+    /**
+     * 分半显示
+     * @param x
+     * @param y
+     * @param halfWidth
+     * @param halfHeight
+     */
+    public static void filledRectangle_bottom(double x, double y, double halfWidth, double halfHeight)
+    {
+        validate(x, "x");
+        validate(y, "y");
+        validate(halfWidth, "halfWidth");
+        validate(halfHeight, "halfHeight");
+        validateNonnegative(halfWidth, "half width");
+        validateNonnegative(halfHeight, "half height");
 
+        double xs = scaleX(x);
+        double ys = scaleY(y);
+        double ws = factorX(2*halfWidth);
+        double hs = factorY(2*halfHeight);
+//        System.out.println("ws = " + ws + ", hs = "  + hs);
+        if (ws <= 1 && hs <= 1) 
+        {
+        	pixel(x, y);
+        }
+        else 
+        {
+        	offscreen.fill(new Rectangle2D.Double(xs - ws/2, ys - hs, ws, hs));
+        }
+        draw();
+    }
 
     /**
      * Draws a polygon with the vertices 
@@ -2066,27 +2112,69 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      *
      * @param args the command-line arguments
      */
-    public static void main(String[] args) {
-        StdDraw.square(0.2, 0.8, 0.1);
-        StdDraw.filledSquare(0.8, 0.8, 0.2);
-        StdDraw.circle(0.8, 0.2, 0.2);
+    public static void main(String[] args)
+    {
+    	/**
+    	 * x =0.05, y =0.0,width =0.045454545454545456, high=0.0
+x =0.15000000000000002, y =0.05,width =0.045454545454545456, high=0.05
+x =0.25, y =0.1,width =0.045454545454545456, high=0.1
+x =0.35, y =0.15,width =0.045454545454545456, high=0.15
+x =0.45, y =0.2,width =0.045454545454545456, high=0.2
+x =0.55, y =0.25,width =0.045454545454545456, high=0.25
+x =0.65, y =0.3,width =0.045454545454545456, high=0.3
+x =0.75, y =0.35,width =0.045454545454545456, high=0.35
+x =0.8500000000000001, y =0.4,width =0.045454545454545456, high=0.4
+x =0.9500000000000001, y =0.45,width =0.045454545454545456, high=0.45
+    	 */
+    	//StdDraw.setPenColor(StdDraw.RED);
+    	//StdDraw.filledRectangle(0.4, 0.75, 0.05, 0.15);
+       // StdDraw.square(0.2, 0.8, 0.1);
+      // StdDraw.filledSquare(1, 1, 0.5);
+       // StdDraw.circle(0.8, 0.2, 0.2);
 
-        StdDraw.setPenColor(StdDraw.BOOK_RED);
-        StdDraw.setPenRadius(0.02);
-        StdDraw.arc(0.8, 0.2, 0.1, 200, 45);
-
-        // draw a blue diamond
-        StdDraw.setPenRadius();
-        StdDraw.setPenColor(StdDraw.BOOK_BLUE);
-        double[] x = { 0.1, 0.2, 0.3, 0.2 };
-        double[] y = { 0.2, 0.3, 0.2, 0.1 };
-        StdDraw.filledPolygon(x, y);
-
-        // text
-        StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.text(0.2, 0.5, "black text");
-        StdDraw.setPenColor(StdDraw.WHITE);
-        StdDraw.text(0.8, 0.8, "white text");
+//        StdDraw.setPenColor(StdDraw.BOOK_RED);
+//        StdDraw.setPenRadius(0.02);
+//        StdDraw.arc(0.8, 0.2, 0.1, 200, 45);
+//
+//        // draw a blue diamond
+//        StdDraw.setPenRadius();
+//        StdDraw.setPenColor(StdDraw.BOOK_BLUE);
+//        double[] x = { 0.1, 0.2, 0.3, 0.2 };
+//        double[] y = { 0.2, 0.3, 0.2, 0.1 };
+//        StdDraw.filledPolygon(x, y);
+//
+//        // text
+//        StdDraw.setPenColor(StdDraw.BLACK);
+//        StdDraw.text(0.2, 0.5, "black text");
+//        StdDraw.setPenColor(StdDraw.WHITE);
+//        StdDraw.text(0.8, 0.8, "white text");
+    	int n = 10;
+    	  StdDraw.clear();
+          for (int num = 0; num <  n; ++num)
+          {
+          	 //乘以1.0为的是将其变为double类型
+              double x = 1.0 * num /n +0.05;
+              
+              double high =  (40 *(num+1))  / 1600.000;
+              
+              
+              double y = 0.5;
+   
+              double width = 0.5 / (n +1) ;
+   
+              
+              
+             
+              {
+              	 StdDraw.setPenColor(StdDraw.MAGENTA);
+              }
+              System.out.println("x =" + x + ", y =" + y + ",width =" + width + ", high=" + high);
+              StdDraw.filledRectangle_bottom(x, y, width, high);
+              StdDraw.setPenColor(StdDraw.YELLOW);
+             // System.out.println("x =" + x);
+              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), "num " + num);
+          }
+          StdDraw.show();
     }
 
     /**

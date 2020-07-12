@@ -1,3 +1,5 @@
+import chen.cmap;
+
 /******************************************************************************
  *  Compilation:  javac Merge.java
  *  Execution:    java Merge < input.txt
@@ -21,7 +23,7 @@
  *  
  ******************************************************************************/
 
-package edu.princeton.cs.algs4;
+
 
 /**
  *  The {@code Merge} class provides static methods for sorting an
@@ -49,24 +51,159 @@ public class Merge {
     // This class should not be instantiated.
     private Merge() { }
 
+    public static void show_all(Comparable[] a)
+    {
+    	int n = a.length;
+    	try {
+ 			Thread.currentThread().sleep(1000) ;
+ 		} catch (InterruptedException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+    	  StdDraw.clear();
+    	  double y = 0.0;
+//    	  double width = 0.0;
+          double high = 0.0;
+          
+    	  for (int num = 0; num <  n; ++num)
+          {
+              double x = 1.0 * num /n +0.05;
+              
+              
+            	  y = 0.5; 
+            	  high =   Integer.valueOf(cmap.get_value((String) a[num]))  / 500.000; 
+            	  StdDraw.setPenColor(StdDraw.GREEN); //设置成红色
+             
+               
+              
+   
+              double width = 0.5 / (n +1) ;  
+             
+              System.out.println("x =" + x + ", y =" + y + ",width =" + width + ", high=" + high);
+              StdDraw.filledRectangle_bottom(x, y, width, high);
+              StdDraw.setPenColor(StdDraw.YELLOW);
+        
+             
+             StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) a[num]));
+             
+               
+             
+          }
+          StdDraw.show();
+    	
+    }
+    public static void show(Comparable[] a, Comparable[] aux, int lo, int mid, int hi, int lox_num, int mid_y_num )
+    {
+    	System.out.println("lo =" + lo + ",mid =" + mid + ",hi =" + hi + ", lox_num=" + lox_num + ", mid_y_num =" + mid_y_num);
+    	int n = a.length;
+    	try {
+ 			Thread.currentThread().sleep(1000) ;
+ 		} catch (InterruptedException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+    	  StdDraw.clear();
+    	  double y = 0.0;
+          double high = 0.0;
+          
+    	  for (int num = 0; num <  n; ++num)
+          {
+              double x = 1.0 * num /n +0.05;
+              
+              // 1. 没有参与合并数
+              // 2. 参与合并的数 
+              // 2.1  参与合并的数中在已经排序到mid左边了
+              // 2.2  参与合并的数中已经在排序到mid右边了
+              // 2.4  参与合并的数在临时数组中
+              if (num < lo || num > hi)
+              {
+            	  StdDraw.setPenColor(StdDraw.RED); //设置成红色
+            	  //设置y  , height
+            	  y = 0.5; 
+            	  high =   Integer.valueOf(cmap.get_value((String) a[num]))  / 500.000; 
+              }
+              else 
+              {
+            	  if (lox_num > 0 || mid_y_num > 0)
+            	  {
+            		  if ((lo +lox_num) >num  && num >=lo)
+            		  {
+            			  StdDraw.setPenColor(StdDraw.DARK_GRAY); 
+                    	  //设置y  , height
+                    	  y = 0.5; 
+                    	  high =   Integer.valueOf(cmap.get_value((String) a[num]))  / 500.000; 
+            		  }
+            		  else if ((mid + mid_y_num) >= num && mid <num)
+            		  {
+            			  StdDraw.setPenColor(StdDraw.GREEN); 
+                    	  //设置y  , height
+                    	  y = 0.5; 
+                    	  high =   Integer.valueOf(cmap.get_value((String) a[num]))  / 500.000; 
+            		  }
+            		  else 
+            		  {
+                		  StdDraw.setPenColor(StdDraw.BLUE); 
+                		  y = 0.0;
+                    	  high =   Integer.valueOf(cmap.get_value((String) aux[num]))  / 500.000; 
+                	  }
+            	  }
+            	  else 
+            	  {
+            		  StdDraw.setPenColor(StdDraw.BLUE); 
+                	  //设置y  , height
+                	  //y = 0.5; 
+            		  y = 0.0;
+                	  high =   Integer.valueOf(cmap.get_value((String) aux[num]))  / 500.000; 
+            	  
+            	  }  
+              }
+              double width = 0.5 / (n +1) ;  
+       
+             // System.out.println("x =" + x + ", y =" + y + ",width =" + width + ", high=" + high);
+              StdDraw.filledRectangle_bottom(x, y, width, high);
+              StdDraw.setPenColor(StdDraw.YELLOW);
+              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) a[num]));
+ 
+          }
+          StdDraw.show();
+    	
+    }
     // stably merge a[lo .. mid] with a[mid+1 ..hi] using aux[lo .. hi]
-    private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
+    private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) 
+    {
         // precondition: a[lo .. mid] and a[mid+1 .. hi] are sorted subarrays
         assert isSorted(a, lo, mid);
         assert isSorted(a, mid+1, hi);
 
         // copy to aux[]
-        for (int k = lo; k <= hi; k++) {
+        for (int k = lo; k <= hi; k++) 
+        {
             aux[k] = a[k]; 
         }
 
+        show(a, aux, lo, mid, hi, 0, 0);
         // merge back to a[]
         int i = lo, j = mid+1;
-        for (int k = lo; k <= hi; k++) {
-            if      (i > mid)              a[k] = aux[j++];
-            else if (j > hi)               a[k] = aux[i++];
-            else if (less(aux[j], aux[i])) a[k] = aux[j++];
-            else                           a[k] = aux[i++];
+        for (int k = lo; k <= hi; k++)
+        {
+        	//判断i> mid 和 j > hi是有可能  
+            if      (i > mid)              
+            {
+            	a[k] = aux[j++];
+            }
+            else if (j > hi)               
+            {
+            	a[k] = aux[i++];
+            }
+            else if (less(aux[j], aux[i])) 
+            {
+            	a[k] = aux[j++];
+            }
+            else                           
+            {
+            	a[k] = aux[i++];
+            }
+            show(a, aux, lo, mid, hi, i-lo, j -mid -1);
         }
 
         // postcondition: a[lo .. hi] is sorted
@@ -75,11 +212,15 @@ public class Merge {
 
     // mergesort a[lo..hi] using auxiliary array aux[lo..hi]
     private static void sort(Comparable[] a, Comparable[] aux, int lo, int hi) {
-        if (hi <= lo) return;
+        if (hi <= lo)
+        {
+        	 return;
+        }
         int mid = lo + (hi - lo) / 2;
         sort(a, aux, lo, mid);
         sort(a, aux, mid + 1, hi);
         merge(a, aux, lo, mid, hi);
+        
     }
 
     /**
@@ -89,6 +230,7 @@ public class Merge {
     public static void sort(Comparable[] a) {
         Comparable[] aux = new Comparable[a.length];
         sort(a, aux, 0, a.length-1);
+       
         assert isSorted(a);
     }
 
@@ -166,8 +308,9 @@ public class Merge {
     // print array to standard output
     private static void show(Comparable[] a) {
         for (int i = 0; i < a.length; i++) {
-            StdOut.println(a[i]);
+            StdOut.print(cmap.get_value((String) a[i] ) + "   ");
         }
+        StdOut.println();
     }
 
     /**
@@ -177,8 +320,23 @@ public class Merge {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        String[] a = StdIn.readAllStrings();
+//        String[] a = StdIn.readAllStrings();
+    	 String[] a = new String[10] ;
+    	 a[0] = "a";
+       	 a[1] = "M";
+       	 a[2] = "W";
+       	 a[3] = "I";
+       	 a[4] = "!";
+       	 a[5] = "z";
+       	 a[6] = "Q";
+       	 a[7] = "B";
+       	 a[8] = "6";
+       	 a[9] = "&";
+       	 cmap.init();
+    	 show_all(a);
+       	 show(a);
         Merge.sort(a);
+        show_all(a);
         show(a);
     }
 }

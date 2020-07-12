@@ -1,4 +1,4 @@
-package src;
+package chen;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -48,10 +48,18 @@ public class cmap {
 	{
 		return m_map.containsKey(key);
 	}
-	public static void put(String key, String value)
+	public static boolean put(String key, String value)
 	{
-		String old_value =  m_map.put(key, value);
-		System.out.println("old_value ="+ old_value);
+		 String old_value = m_map.put(key, value);
+		
+		 if(old_value == null)
+		 {
+			 System.out.println("install ok map key =" + key + ", value = " +value);
+			 return true;
+		 }
+		 System.out.println("install failed map key =" + key + ", value = " +value + ", old_value = " +old_value);
+		 return true;
+		
 	}
 	
 	

@@ -24,7 +24,7 @@
 
 import java.util.Comparator;
 
-import src.cmap;
+import chen.cmap;
 
 /**
  *  The {@code Insertion} class provides static methods for sorting an
