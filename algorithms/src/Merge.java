@@ -192,23 +192,31 @@ public class Merge {
 				  System.out.println("down = null,down =" + down );
 	    			break;
 	    		}
-//			if (lox_ > 0 && down < (lox_ +lo))
-//			{
-//				 double x = 1.0 * (down) /n +0.05;
-//	    		   y = 0.0;
-//	    		   double width = 0.5 / (n +1) ;
-//	    		   StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
-//	        	  high =   Integer.valueOf(cmap.get_value((String) aux[down]))  / 500.000; 
-//	        	  System.out.println("down = lo+down " + down + ", value ="+ cmap.get_value((String) aux[down]));
-//	        	  StdDraw.filledRectangle_bottom(x, y, width, high);
-//	              StdDraw.setPenColor(StdDraw.YELLOW);
-//	              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) aux[down]));
-//			}
-//			else if (mid_y >0 && (lo+ mid + mid_y) < down)
-//			{
-//				
-//			}
-//			else 
+			if (down < lox_)
+			{
+				 double x = 1.0 * (down) /n +0.05;
+	    		   y = 0.0;
+	    		   double width = 0.5 / (n +1) ;
+	    		   StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
+	        	  high =   Integer.valueOf(cmap.get_value((String) aux[down]))  / 500.000; 
+	        	  System.out.println("down = lo+down " + down + ", value ="+ cmap.get_value((String) aux[down]));
+	        	  StdDraw.filledRectangle_bottom(x, y, width, high);
+	              StdDraw.setPenColor(StdDraw.YELLOW);
+	              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) aux[down]));
+			}
+			else if (mid < down && down < mid_y )
+			{
+				 double x = 1.0 * (down) /n +0.05;
+	    		   y = 0.0;
+	    		   double width = 0.5 / (n +1) ;
+	    		   StdDraw.setPenColor(StdDraw.MAGENTA);
+	        	  high =   Integer.valueOf(cmap.get_value((String) aux[down]))  / 500.000; 
+	        	  System.out.println("down = lo+down " + down + ", value ="+ cmap.get_value((String) aux[down]));
+	        	  StdDraw.filledRectangle_bottom(x, y, width, high);
+	              StdDraw.setPenColor(StdDraw.YELLOW);
+	              StdDraw.text(x, ( y+(high/2)<=0.1)? (y+0.1): (y+(high/2)), cmap.get_value((String) aux[down]));
+			}
+			else 
 			{
 				  double x = 1.0 * (down) /n +0.05;
 	    		   y = 0.0;
@@ -248,7 +256,7 @@ public class Merge {
         int i = lo, j = mid+1;
         for (int k = lo; k <= hi; k++)
         {
-        	 show(a, aux, lo, mid, hi,    (j -mid -1)+(  i-lo), i-lo, j-mid-1);
+        	 show(a, aux, lo, mid, hi,    (j -mid -1)+(  i-lo), i, j);
         	//判断i> mid 和 j > hi是有可能  
             if      (i > mid)              
             {
@@ -268,7 +276,7 @@ public class Merge {
             }
            // show(a, aux, lo, mid, hi, i-lo, j -mid -1);
         }
-        show(a, aux, lo, mid, hi,  (j -mid -1)+(  i-lo), i-lo, j-mid-1);
+        show(a, aux, lo, mid, hi,  (j -mid -1)+(  i-lo), i, j);
         // postcondition: a[lo .. hi] is sorted
         assert isSorted(a, lo, hi);
     }
